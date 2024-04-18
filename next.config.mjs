@@ -1,4 +1,21 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+// @ts-check
+const nextConfig = {
+    experimental: {
+      typedRoutes: false,
+    },
+    images: {
+      unoptimized: false,
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "images.pexels.com",
+          port: "",
+          pathname: "/**",
+        }
+      ],
+    },
+  };
+  
+  export default nextConfig;
+  
