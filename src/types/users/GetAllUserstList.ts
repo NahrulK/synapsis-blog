@@ -34,7 +34,7 @@ export interface Pagination {
 }
 
 export interface Links {
-    previous?: null;
+    previous?: string;
     current?:  string;
     next?:     string;
 }

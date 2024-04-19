@@ -1,18 +1,76 @@
 "use client"
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { useRouter } from "next/navigation";
+import { GetAllUserstList, GetAllUserstListDatum } from "@/types/users/GetAllUserstList";
+import { fetchAllUserList } from "@/api/users";
+import { toast } from "sonner";
+import TableSkeleton from "../Skeleton/TableSkeleton";
+import { AlertDeleteUser } from "../Alert/AlertDeleteUser";
 
 const UserList = () => {
 
   const router = useRouter()
 
+  const [userList, setUserList] = useState<GetAllUserstList>()
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const [openVerifyDelete, setOpenVerifyDelete] = useState<boolean>(false);
+  const [openAlertText, setOpenAlertText] = useState<string>('');
+  const [idToDelete, setIdToDelete] = useState<number>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const requestUsers = await fetchAllUserList(1, 5);
+
+        if(requestUsers.data?.length){
+          setUserList(requestUsers)
+          setLoading(false)
+        }else {
+          toast.warning("No users found")
+          setLoading(false)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  const handlerOpenDialog = (name : string, id: number) => {
+    setOpenVerifyDelete(true);
+    setOpenAlertText(`Apakah anda yakin untuk menghapus user : ${name}`);
+    setIdToDelete(id);
+};
+
+
+const handlerCloseDialog = () => {
+    setOpenVerifyDelete(false);
+};
+
+
+const handleDeleteUser = async () => {
+  try {
+      // setLoading(true);
+      toast(idToDelete)
+  } catch (error) {
+      toast.error(`${error}`);
+  }
+};
+
+
   return (
     <div className="relative rounded-md bg-white p-5 shadow dark:bg-background mt-5 overflow-hidden border-0 ">
       <div className="table-responsive">
-        <table className="table-striped table-hover">
+       {loading ? (<TableSkeleton long={5} />) : (
+        <>
+         <table className="table-striped table-hover">
           <thead>
             <tr>
             <th>No</th>
@@ -25,23 +83,23 @@ const UserList = () => {
             </tr>
           </thead>
           <tbody>
-           {[1,1,1,1,1].map((_, index) => (
+           {userList?.data?.map((user : GetAllUserstListDatum, index) => (
              <tr key={index}>
               <td>{(index+1)}</td>
              <td>
-               <div className="font-medium">Abani Adiga</div>
+               <div className="font-medium">{user.name}</div>
              </td>
-             <td className="italic text-sm hover:text-primary-500">abani_adiga@streich.test</td>
-             <td > <Badge variant={"outline"}>Male</Badge></td>
-             <td><Badge variant={"secondary"}>Active</Badge></td>
+             <td className="italic text-sm hover:text-primary-500">{user.email}</td>
+             <td > <Badge variant={user.gender == "male" ? "default" : "outline"}>{user.gender}</Badge></td>
+             <td><Badge variant={user.status == "active" ? "secondary" : "destructive"}>{user.status}</Badge></td>
 
              <td>
                <div className="flex items-center justify-center gap-4">
                  <Button
                    type="button"
                    variant={"default"}
-                   className="text-xs text-white "
-                   onClick={()=> router.push("/users/edit/1")}
+                   className="text-xs text-white bg-foreground text-background"
+                   onClick={()=> router.push(`/users/edit/${user.id}`)}
                  >
                    Edit
                  </Button>
@@ -49,6 +107,7 @@ const UserList = () => {
                    type="button"
                    variant={"outline"}
                    className="text-xs hover:bg-red-400 hover:text-white"
+                  onClick={() => handlerOpenDialog(user.name as string, user.id as number)}
                  >
                   Delete
                  </Button>
@@ -58,6 +117,8 @@ const UserList = () => {
            ))}
           </tbody>
         </table>
+        </>
+       )}
       </div>
       <div className="w-full flex justify-end p-4">
         <ul className="inline-flex gap-2">
@@ -89,6 +150,7 @@ const UserList = () => {
           </li>
         </ul>
       </div>
+      <AlertDeleteUser loading={loading} handleClose={handlerCloseDialog} handleClick={handleDeleteUser} title="Verifikasi Action Delete" body={openAlertText} open={openVerifyDelete} />
     </div>
   );
 };
