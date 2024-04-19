@@ -7,9 +7,8 @@ export default function Home() {
     <div className="nc-BlogPage overflow-hidden relative">
       {/* ======== BG GLASS ======== */}
       <BgGlassmorphism />
-      {/* ======== ALL SECTIONS ======== */}
       <div className="container relative">
-        {/* === SECTION 1 === */}
+        {/* === SECTION  === */}
         <div className="pt-12 pb-16 lg:pb-28">
           <SectionBlogList />
         </div>

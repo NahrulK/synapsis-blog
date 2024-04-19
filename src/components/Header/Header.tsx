@@ -25,13 +25,13 @@ const Header: FC<HeaderProps> = () => {
               
               <SwitchDarkMode />
               <ButtonPrimary
-                
+                href="/users/create"
                 sizeClass="px-4 py-2 sm:px-5"
               >
                 Create User
               </ButtonPrimary>
               <ButtonSecondary
-                
+                href="/users/list"
                 sizeClass="px-4 py-2 sm:px-5"
               >
                 Users List
@@ -42,7 +42,7 @@ const Header: FC<HeaderProps> = () => {
              
                 sizeClass="px-4 py-2 sm:px-5"
               >
-                Create
+                Create User
               </ButtonPrimary>
               <MenuBar />
             </div>

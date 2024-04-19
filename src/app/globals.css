@@ -24,7 +24,7 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
-    --radius: 0rem;
+    --radius: 0.8rem;
   }
 
   .dark {
@@ -58,3 +58,47 @@
       @apply bg-background text-foreground;
     }
   }
+
+@layer components {
+  
+    /* tables */
+  .table-responsive {
+      @apply overflow-auto;
+  }
+  table {
+      @apply w-[70vw] mx-auto shadow-md !border-collapse rounded;
+  }
+  table thead tr,
+  table tfoot tr {
+      @apply border-b-0 !bg-[#f6f8fa]  dark:!bg-background rounded;
+  }
+  table thead tr th,
+  table tfoot tr th,
+  table tbody tr td {
+      @apply px-4 py-3 ltr:text-left rtl:text-right;
+  }
+  table thead tr th,
+  table tfoot tr th {
+      @apply font-semibold;
+  }
+  table tbody tr {
+      @apply border-b !border-neutral-50 dark:!border-[#191e3a];
+  }
+  table.table-hover tbody tr {
+      @apply hover:!bg-neutral-50 dark:hover:!bg-[#1a2941]/40;
+  }
+  table.table-striped tbody tr:nth-child(odd) {
+      @apply !bg-neutral-50 dark:!bg-[#1a2941]/40;
+  }
+
+  table.dataTable-table tbody tr th,
+  table.dataTable-table tbody tr td {
+      @apply border-b border-neutral-50 px-4 py-3 ltr:text-left rtl:text-right dark:border-[#191e3a];
+  }
+  table.dataTable-table tbody tr:last-child td {
+      @apply border-b-0;
+  }
+
+  
+
+}

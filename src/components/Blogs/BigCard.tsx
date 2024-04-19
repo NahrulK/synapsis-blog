@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 
 import Link from "next/link";
+import { ArrowRightCircleIcon } from "@heroicons/react/24/solid";
+import Button from "../shared/Button/Button";
 
 export interface BigCardProps {
   className?: string;
@@ -28,6 +30,18 @@ const BigCard: FC<BigCardProps> = ({ className = "h-full" }) => {
             tempore mollitia? Aperiam.
           </span>
         </span>
+        <div
+          className={` inline-flex  font-medium justify-end py-2 items-center fledx-wrap text-neutral-800 dark:text-neutral-200 text-xs`}
+        >
+          <button className="flex  cursor-pointer hover:bg-secondary-400 justify-center items-center bg-secondary-100 rounded">
+            <span className="text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium">
+              <ArrowRightCircleIcon className="h-5 w-5" />
+            </span>
+            <span className="text-neutral-500 p-2  dark:text-neutral-400 font-normal line-clamp-1">
+              Lihat Selengkapnya..
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   );

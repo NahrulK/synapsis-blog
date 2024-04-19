@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 
 import Link from "next/link";
+import { ArrowRightCircleIcon } from "@heroicons/react/24/solid";
 
 export interface SmallCardProps {
   className?: string;
@@ -25,9 +26,19 @@ const SmallCard: FC<SmallCardProps> = ({ className = "" }) => {
             dolorem voluptatibus numquam ut pariatur officiis?
           </span>
         </span>
-        <span className="mt-4 block sm:hidden text-sm text-slate-500 ">
-          May 20, 2021 · 2 min read
+        <div
+      className={` inline-flex  font-medium justify-end py-1 items-center fledx-wrap text-neutral-800 dark:text-neutral-200 text-xs`}
+    >
+     
+      <button className="flex  cursor-pointer hover:bg-primary-400 justify-center items-center bg-primary-100 rounded">
+          <span className="text-neutral-500 dark:text-neutral-400 mx-[6px] font-medium">
+          <ArrowRightCircleIcon className="h-5 w-5"/>
         </span>
+        <span className="text-neutral-500 p-2  dark:text-neutral-400 font-normal line-clamp-1">
+          Lihat Selengkapnya..
+        </span>
+      </button>
+    </div>
       </div>
     </div>
   );
