@@ -2,8 +2,29 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Comment from "@/components/shared/Comment/Comment";
+import { GetPostDetail } from "@/types/posts/GetPostDetail";
+import { fetchAPostDetail, fetchAllPostComments } from "@/api/posts";
+import { GetAUserData } from "@/types/users/GetAUsersData";
+import { fetchAUser } from "@/api/users";
+import {
+  GetCommentsPost,
+  GetCommentsPostDatum,
+} from "@/types/posts/GetCommentPost";
+import { Badge } from "@/components/ui/badge";
 
-const BlogSingle = () => {
+const BlogSingle = async ({
+  params,
+}: {
+  params: { idUser: string; idPosts: number };
+}) => {
+  const postDetail: GetPostDetail = await fetchAPostDetail(params.idPosts);
+  const postComment: GetCommentsPost = await fetchAllPostComments(
+    params.idPosts
+  );
+  const postUser: GetAUserData = await fetchAUser(
+    postDetail?.data?.user_id ? postDetail?.data?.user_id : 1
+  );
+
   const renderHeader = () => {
     return (
       <header className="container rounded-xl">
@@ -12,7 +33,7 @@ const BlogSingle = () => {
             className=" text-neutral-900 font-semibold text-3xl md:text-4xl md:!leading-[120%] lg:text-4xl dark:text-neutral-100 max-w-4xl "
             title="Quiet ingenuity: 120,000 lunches and counting"
           >
-            Keep up the spirit of the desire to travel around the world
+            {postDetail?.data?.title}
           </h1>
 
           <div className="w-full border-b border-neutral-100 dark:border-neutral-800"></div>
@@ -27,14 +48,7 @@ const BlogSingle = () => {
         id="single-entry-content"
         className="prose prose-sm !max-w-screen-md sm:prose lg:prose-lg mx-auto dark:prose-invert mt-4"
       >
-        <p>
-          Venio ut accedo. Illum saepe curia. Adaugeo animus solio. Quis sol
-          abbas. Animi thymum depono. Debitis similique absens. Vivo timor
-          neque. Valeo qui adduco. Caelestis quisquam cogito. Comedo uredo
-          omnis. Clarus abundans depulso. Tametsi est tumultus. Stipes averto
-          qui. Spes bene vigor. Quibusdam pectus terror. Verbum tripudio
-          censura. Speciosus sulum architecto.
-        </p>
+        <p>{postDetail.data?.body}</p>
       </div>
     );
   };
@@ -47,13 +61,17 @@ const BlogSingle = () => {
             <span className="text-xs text-neutral-400 uppercase tracking-wider">
               WRITEN BY
             </span>
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-200">
-              <a href="##">Fones Mimi</a>
-            </h2>
-            <span className="text-sm text-neutral-500 sm:text-base dark:text-neutral-300">
-            bhudev_bhat@zulauf-schiller.example
-              
-            </span>
+
+            <div className="flex flex-col gap-2">
+              <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-200">
+                {postUser.data?.name ? postUser.data?.name : "Unknown User"}{" "}
+                {postUser.data?.gender && (<Badge className="ml-2" variant={"outline"}>{postUser.data?.gender}</Badge>)}
+              </h2>
+              <h3 className="text-sm text-neutral-500 sm:text-base dark:text-neutral-300">
+                {postUser.data?.email ? postUser.data?.email : ""}{" "}
+                {postUser.data?.status && (<Badge className="ml-2" variant={"default"}>{postUser.data?.status}</Badge>)}
+              </h3>
+            </div>
           </div>
         </div>
       </div>
@@ -64,7 +82,7 @@ const BlogSingle = () => {
     return (
       <div className="max-w-screen-md mx-auto pt-5">
         <h3 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-          Responses (14)
+          Responses ({postComment.meta?.pagination?.total})
         </h3>
       </div>
     );
@@ -74,22 +92,11 @@ const BlogSingle = () => {
     return (
       <div className="max-w-screen-md mx-auto mb-4">
         <ul className="nc-SingleCommentLists space-y-5">
-          <li>
-            <Comment />
-            {/* <ul className="pl-4 mt-5 space-y-5 md:pl-11">
-              <li>
-                <Comment isSmall />
-              </li>
-            </ul> */}
-          </li>
-          <li>
-            <Comment />
-            {/* <ul className="pl-4 mt-5 space-y-5 md:pl-11">
-              <li>
-                <Comment isSmall />
-              </li>
-            </ul> */}
-          </li>
+          {postComment.data?.map((comment: GetCommentsPostDatum, index) => (
+            <li key={index}>
+              <Comment comment={comment} />
+            </li>
+          ))}
         </ul>
       </div>
     );
