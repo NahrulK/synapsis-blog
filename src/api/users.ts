@@ -1,7 +1,6 @@
 import { GetAUserData } from "@/types/users/GetAUsersData";
 import { GetAllUserstList } from "@/types/users/GetAllUserstList";
 
-
 export const fetchAllUserList = async (
   page: number,
   limit: number
@@ -25,28 +24,43 @@ export const fetchAllUserList = async (
   return result;
 };
 
+export const fetchAUser = async (idUser: number): Promise<GetAUserData> => {
+  // Set the required headers for the API request
+  const response = await fetch(
+    `${String(process.env.NEXT_PUBLIC_BASE_URL)}/users/${idUser}`,
+    { next: { revalidate: 0 } }
+  );
 
+  if (!response.ok) {
+    // Log the error or handle it accordingly
+    console.error(`Error fetching data: ${response.status}`);
+  }
 
-  export const fetchAUser = async (
-    idUser: number
-  ): Promise<GetAUserData> => {
-    // Set the required headers for the API request
-    const response = await fetch(
-      `${String(
-        process.env.NEXT_PUBLIC_BASE_URL
-      )}/users/${idUser}`,
-      { next: { revalidate: 0 } }
+  // Parse the response as JSON
+  const result: GetAUserData = await response.json();
+
+  return result;
+};
+
+export const deleteAUser = async (idUser: number): Promise<boolean> => {
+  // Set the required headers for the API request
+  try {
+    const requestDeleteUser = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/users/${idUser} `,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+        },
+      }
     );
-  
-    if (!response.ok) {
-      // Log the error or handle it accordingly
-      console.error(`Error fetching data: ${response.status}`);
+
+    if (requestDeleteUser.ok) {
+      return true;
+    } else {
+      return false;
     }
-  
-    // Parse the response as JSON
-    const result: GetAUserData = await response.json();
-  
-    return result;
-  };
-  
-  
+  } catch (error) {
+    throw error;
+  }
+};
