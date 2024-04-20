@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import ButtonPrimary from "../shared/Button/ButtonPrimary";
 import {
   Form,
@@ -23,8 +23,19 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "sonner";
+import { postAUser } from "@/api/users";
+import { ErrorType } from "@/types/ErrorType";
+import { GetAUserData } from "@/types/users/GetAUsersData";
+import { useRouter } from "next/navigation";
 
 const CreateUser = () => {
+
+
+  const router = useRouter();
+
+  
+  const [loading, setLoading] = useState<boolean>(false);
+
   const formCreateUser = useForm<z.infer<typeof formSchemaUser>>({
     resolver: zodResolver(formSchemaUser),
     defaultValues: {
@@ -39,8 +50,38 @@ const CreateUser = () => {
   const handleCreateUser = async (
     values: z.infer<typeof formSchemaUser>
   ) => {
-    // setLoading(true);
-  toast.info(`${values.nama},${values.email},${values.status},${values.gender}`)
+    setLoading(true);
+  // toast.info(`${values.nama},${values.email},${values.status},${values.gender}`)
+
+    try {
+      
+      const createNewUser = await postAUser(values.nama,values.email,values.gender,values.status)
+
+      if ("data" in createNewUser && createNewUser.data && "id" in createNewUser.data) {
+        // This means createNewUser is of type GetAUserData and has an ID
+        // Handle the success case here
+        const userData = createNewUser.data;
+        // Access properties like userData.id, userData.name, etc.
+        toast.success( `Success create user ${userData.name}`)
+        setLoading(false);
+        router.push("/users/list")
+      } else {
+        // Handle the error case here
+        if (Array.isArray(createNewUser.data)) {
+          // Assuming error response has a "message" property
+          toast.warning(`${createNewUser.data[0]?.field} ${createNewUser.data[0]?.message}` || "Unknown error occurred");
+          setLoading(false);
+        } else {
+          // Handle any other error types
+          toast.error("An error occurred while creating the user");
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      toast.info(`${error}`)
+      setLoading(false);
+    }
+
   };
 
   return (
@@ -135,8 +176,8 @@ const CreateUser = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="male">Pria</SelectItem>
-                              <SelectItem value="female">Wanita</SelectItem>
+                              <SelectItem value="male">male</SelectItem>
+                              <SelectItem value="female">female</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage className="dark:text-red-300 text-xs " />
@@ -166,8 +207,10 @@ const CreateUser = () => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="active">Aktif</SelectItem>
-                              <SelectItem value="inactive">Tidak Aktif</SelectItem>
+                            <SelectItem value="active">active</SelectItem>
+                              <SelectItem value="inactive">
+                              inactive
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage className="dark:text-red-300 text-xs" />
@@ -180,8 +223,8 @@ const CreateUser = () => {
                 {/* ---- */}
                 <div className="pt-2">
                   <ButtonPrimary
-                    // loading={loading}
-                    // disabled={loading}
+                    loading={loading}
+                    disabled={loading}
                     type="submit"
                     className="w-full"
                   >

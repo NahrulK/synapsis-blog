@@ -1,9 +1,9 @@
 import EditUser from '@/components/Users/EditUser'
 import React from 'react'
 
-const EditUserPage = () => {
+const EditUserPage = ({params}: {params : {id : number}}) => {
   return (
-    <div><EditUser/></div>
+    <div><EditUser params={params}/></div>
   )
 }
 

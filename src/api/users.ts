@@ -1,3 +1,4 @@
+import { ErrorType } from "@/types/ErrorType";
 import { GetAUserData } from "@/types/users/GetAUsersData";
 import { GetAllUserstList } from "@/types/users/GetAllUserstList";
 
@@ -64,3 +65,70 @@ export const deleteAUser = async (idUser: number): Promise<boolean> => {
     throw error;
   }
 };
+
+export const postAUser = async (name: string, email : string, gender : string, status : string): Promise<GetAUserData | ErrorType> => {
+  // Set the required headers for the API request
+  try {
+    const requestCreateUser = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
+      {
+        method: "POST",
+        headers: {
+          'Content-Type': 'Application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+        },
+       body : JSON.stringify({
+        name : name,
+        email: email,
+        gender: gender,
+        status: status
+       })
+      }
+    );
+
+    const  userCreated: GetAUserData | ErrorType = await requestCreateUser.json();
+    // const  userCreatedError: ErrorType = await requestCreateUser.json();
+
+    if (!requestCreateUser.ok) {
+      console.error(requestCreateUser.status) ;
+    }
+
+    return userCreated
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateAUser = async (idUser: number , name: string, email : string, gender : string, status : string): Promise<GetAUserData | ErrorType> => {
+  // Set the required headers for the API request
+  try {
+    const requestCreateUser = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/users/${idUser}`,
+      {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'Application/json',
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+        },
+       body : JSON.stringify({
+        name : name,
+        email: email,
+        gender: gender,
+        status: status
+       })
+      }
+    );
+
+    const  userCreated: GetAUserData | ErrorType = await requestCreateUser.json();
+    // const  userCreatedError: ErrorType = await requestCreateUser.json();
+
+    if (!requestCreateUser.ok) {
+      console.error(requestCreateUser.status) ;
+    }
+
+    return userCreated
+  } catch (error) {
+    throw error;
+  }
+};
+
