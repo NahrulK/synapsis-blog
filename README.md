@@ -106,6 +106,7 @@ _Lakukan langkah-langkah dibawah ini untuk mulai melakukan instalasi aplikasi di
     ```js
    npm run dev
    ```
+    _atau_
  - Build & Production
    ```js
    npm run build
