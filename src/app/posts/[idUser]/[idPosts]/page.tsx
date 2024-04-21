@@ -76,7 +76,7 @@ const BlogSingle = async ({
   const renderAuthor = () => {
     return (
       <div className="max-w-screen-md mx-auto ">
-        <div className="nc-SingleAuthor flex">
+        <div className="nc-SingleAuthor flex justify-center md:justify-start items-center md:items-start flex-col md:w-auto">
           <div className="flex flex-col ml-3 max-w-lg sm:ml-5 space-y-1">
             <span className="text-xs text-neutral-400 uppercase tracking-wider">
               WRITEN BY

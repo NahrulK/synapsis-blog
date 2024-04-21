@@ -13,7 +13,7 @@ export interface BigCardProps {
 const BigCard: FC<BigCardProps> = ({ className = "h-full" , post}) => {
   return (
     <div className={`nc-Card12 group relative flex flex-col ${className}`}>
-      <div className=" mt-8 pr-10 flex flex-col">
+      <div className=" mt-8 md:pr-10 flex flex-col w-full md:w-auto">
         <h2
           className={`nc-card-title block font-semibold text-neutral-900 dark:text-neutral-100 transition-colors text-lg sm:text-2xl`}
         >
