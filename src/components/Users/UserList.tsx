@@ -72,7 +72,7 @@ const UserList = () => {
     };
 
     fetchData();
-  }, [toggle, search, searchParams, filterSearch]);
+  }, [toggle, search, searchParams, filterSearch, pageIndex]);
 
   const handlerOpenDialog = (name: string, id: number) => {
     setOpenVerifyDelete(true);

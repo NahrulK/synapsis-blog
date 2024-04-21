@@ -5,14 +5,19 @@ import { GetAllUserstList } from "@/types/users/GetAllUserstList";
 export const fetchAllUserList = async (
   page: number,
   limit: number,
-  filters: string,
+  filters: string
 ): Promise<GetAllUserstList> => {
   // Set the required headers for the API request
   const response = await fetch(
     `${String(
       process.env.NEXT_PUBLIC_BASE_URL
     )}/users?page=${page}&per_page=${limit}${filters}`,
-    { next: { revalidate: 0 } }
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+      },
+    }
   );
 
   if (!response.ok) {
@@ -30,7 +35,12 @@ export const fetchAUser = async (idUser: number): Promise<GetAUserData> => {
   // Set the required headers for the API request
   const response = await fetch(
     `${String(process.env.NEXT_PUBLIC_BASE_URL)}/users/${idUser}`,
-    { next: { revalidate: 0 } }
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+      },
+    }
   );
 
   if (!response.ok) {
@@ -67,7 +77,12 @@ export const deleteAUser = async (idUser: number): Promise<boolean> => {
   }
 };
 
-export const postAUser = async (name: string, email : string, gender : string, status : string): Promise<GetAUserData | ErrorType> => {
+export const postAUser = async (
+  name: string,
+  email: string,
+  gender: string,
+  status: string
+): Promise<GetAUserData | ErrorType> => {
   // Set the required headers for the API request
   try {
     const requestCreateUser = await fetch(
@@ -75,32 +90,39 @@ export const postAUser = async (name: string, email : string, gender : string, s
       {
         method: "POST",
         headers: {
-          'Content-Type': 'Application/json',
+          "Content-Type": "Application/json",
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
         },
-       body : JSON.stringify({
-        name : name,
-        email: email,
-        gender: gender,
-        status: status
-       })
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          gender: gender,
+          status: status,
+        }),
       }
     );
 
-    const  userCreated: GetAUserData | ErrorType = await requestCreateUser.json();
+    const userCreated: GetAUserData | ErrorType =
+      await requestCreateUser.json();
     // const  userCreatedError: ErrorType = await requestCreateUser.json();
 
     if (!requestCreateUser.ok) {
-      console.error(requestCreateUser.status) ;
+      console.error(requestCreateUser.status);
     }
 
-    return userCreated
+    return userCreated;
   } catch (error) {
     throw error;
   }
 };
 
-export const updateAUser = async (idUser: number , name: string, email : string, gender : string, status : string): Promise<GetAUserData | ErrorType> => {
+export const updateAUser = async (
+  idUser: number,
+  name: string,
+  email: string,
+  gender: string,
+  status: string
+): Promise<GetAUserData | ErrorType> => {
   // Set the required headers for the API request
   try {
     const requestCreateUser = await fetch(
@@ -108,28 +130,28 @@ export const updateAUser = async (idUser: number , name: string, email : string,
       {
         method: "PATCH",
         headers: {
-          'Content-Type': 'Application/json',
+          "Content-Type": "Application/json",
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
         },
-       body : JSON.stringify({
-        name : name,
-        email: email,
-        gender: gender,
-        status: status
-       })
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          gender: gender,
+          status: status,
+        }),
       }
     );
 
-    const  userCreated: GetAUserData | ErrorType = await requestCreateUser.json();
+    const userCreated: GetAUserData | ErrorType =
+      await requestCreateUser.json();
     // const  userCreatedError: ErrorType = await requestCreateUser.json();
 
     if (!requestCreateUser.ok) {
-      console.error(requestCreateUser.status) ;
+      console.error(requestCreateUser.status);
     }
 
-    return userCreated
+    return userCreated;
   } catch (error) {
     throw error;
   }
 };
-
