@@ -1,7 +1,5 @@
 import React, { FC } from "react";
 import Logo from "../shared/Logo/Logo";
-import Input from "../shared/Input/Input";
-import Navigation from "../shared/Navigation/Navigation";
 import SwitchDarkMode from "../shared/SwitchDarkMode/SwitchDarkMode";
 import ButtonPrimary from "../shared/Button/ButtonPrimary";
 import ButtonSecondary from "../shared/Button/ButtonSecondary";
