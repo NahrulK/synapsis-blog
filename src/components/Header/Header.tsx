@@ -37,7 +37,7 @@ const Header: FC<HeaderProps> = () => {
             </div>
             <div className="flex items-center space-x-1 xl:hidden">
               <ButtonPrimary
-             
+                href="/users/create"
                 sizeClass="px-4 py-2 sm:px-5"
               >
                 Create User
