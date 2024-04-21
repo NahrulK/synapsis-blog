@@ -11,6 +11,7 @@ import Logo from "../Logo/Logo";
 import SwitchDarkMode from "../SwitchDarkMode/SwitchDarkMode";
 import ButtonClose from "../ButtonClose/ButtonClose";
 import ButtonPrimary from "../Button/ButtonPrimary";
+import ButtonSecondary from "../Button/ButtonSecondary";
 
 export interface NavMobileProps {
   onClickClose?: () => void;
@@ -65,9 +66,12 @@ const NavMobile: React.FC<NavMobileProps> = ({ onClickClose }) => {
               <SwitchDarkMode className="bg-neutral-100 dark:bg-neutral-800" />
             </span>
             <div className="flex items-center justify-between py-6 px-5 space-x-2">
-              <ButtonPrimary href={"/"} className="!px-10">
-                Search Users..
-              </ButtonPrimary>
+            <ButtonSecondary
+                href="/users/list"
+                sizeClass="px-4 py-2 sm:px-5"
+              >
+                Users List
+              </ButtonSecondary>
             </div>
           </div>
         </div>

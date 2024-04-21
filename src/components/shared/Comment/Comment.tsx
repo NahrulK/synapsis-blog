@@ -10,16 +10,16 @@ export interface CommentProps {
 const Comment: FC<CommentProps> = ({ isSmall , comment}) => {
   return (
     <div className="nc-CommentCard flex ">
-      <div className="flex-grow flex flex-col p-4 ml-2 text-sm border border-neutral-200 rounded-xl sm:ml-3 sm:text-base dark:border-neutral-700">
-        <div className="relative flex items-center pr-6">
+      <div className="flex-grow max-w-[80vw] overflow-hidden flex flex-col p-4 ml-2 text-sm border border-neutral-200 rounded-xl sm:ml-3 sm:text-base dark:border-neutral-700">
+        <div className="relative flex flex-wrap items-center pr-6">
           <a
-            className="flex-shrink-0 font-semibold text-neutral-800 dark:text-neutral-100"
+            className="flex-shrink-0  font-semibold text-neutral-800 dark:text-neutral-100 "
             href="/ncmaz/author/the-demo-author-slug"
           >
            {comment?.name ? comment.name : "Unknown User"}
           </a>
           <span className="mx-2">·</span>
-          <span className="text-neutral-500 dark:text-neutral-400 text-xs line-clamp-1 sm:text-sm">
+          <span className="text-neutral-500 dark:text-neutral-400 text-xs  sm:text-sm">
             {comment.email}
           </span>
         </div>

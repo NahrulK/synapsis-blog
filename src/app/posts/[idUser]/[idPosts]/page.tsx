@@ -13,7 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const BlogSingle = async ({
-  params,
+  params
 }: {
   params: { idUser: string; idPosts: number };
 }) => {
@@ -63,13 +63,13 @@ const BlogSingle = async ({
             </span>
 
             <div className="flex flex-col gap-2">
-              <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-200">
+              <h2 className="text-lg flex gap-2 flex-col md:flex-row font-semibold text-neutral-900 dark:text-neutral-200">
                 {postUser.data?.name ? postUser.data?.name : "Unknown User"}{" "}
-                {postUser.data?.gender && (<Badge className="ml-2" variant={"outline"}>{postUser.data?.gender}</Badge>)}
+                {postUser.data?.gender && (<Badge className="ml-2 flex items-center justify-center" variant={"outline"}>{postUser.data?.gender}</Badge>)}
               </h2>
-              <h3 className="text-sm text-neutral-500 sm:text-base dark:text-neutral-300">
+              <h3 className="text-sm flex flex-col md:flex-row gap-2 text-neutral-500 sm:text-base dark:text-neutral-300">
                 {postUser.data?.email ? postUser.data?.email : ""}{" "}
-                {postUser.data?.status && (<Badge className="ml-2" variant={"default"}>{postUser.data?.status}</Badge>)}
+                {postUser.data?.status && (<Badge className="ml-2 flex items-center justify-center" variant={"default"}>{postUser.data?.status}</Badge>)}
               </h3>
             </div>
           </div>

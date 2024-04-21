@@ -17,12 +17,11 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/solid";
 import Input from "../shared/Input/Input";
+import PaginationUser from "../Pagination/PaginationUser";
 
 const UserList = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const search = searchParams.get("name");
-  const filterSearch = search ? `&name=${search}` : "";
+ 
   
 
 
@@ -36,6 +35,11 @@ const UserList = () => {
   let [toggle, setToggle] = useState<boolean>(false);
 
   const [inputValue, setInputValue] = useState("");
+
+  const searchParams = useSearchParams();
+  const search = searchParams.get("name");
+  const pageIndex = searchParams.get("pageIndex")
+  const filterSearch = search ? `&name=${search}` : "";
 
   const handleSubmitSearch: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
@@ -52,10 +56,11 @@ const UserList = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const requestUsers = await fetchAllUserList(1, 5, filterSearch);
+        const requestUsers = await fetchAllUserList(Number(pageIndex), 5, filterSearch);
 
         if (requestUsers.data?.length) {
           setUserList(requestUsers);
+          console.log(requestUsers);
           setLoading(false);
         } else {
           toast.warning("No users found");
@@ -67,7 +72,7 @@ const UserList = () => {
     };
 
     fetchData();
-  }, [toggle, search, searchParams]);
+  }, [toggle, search, searchParams, filterSearch]);
 
   const handlerOpenDialog = (name: string, id: number) => {
     setOpenVerifyDelete(true);
@@ -138,7 +143,7 @@ const UserList = () => {
     
       <div className="table-responsive">
         {loading ? (
-          <TableSkeleton long={5} />
+          <TableSkeleton long={9} />
         ) : (
           <>
             <table className="table-striped table-hover">
@@ -213,36 +218,11 @@ const UserList = () => {
           </>
         )}
       </div>
-      <div className="w-full flex justify-end p-4">
-        <ul className="inline-flex gap-2">
-          <li>
-            <button
-              type="button"
-              className="flex justify-center font-semibold px-3.5 py-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-            >
-              1
-            </button>
-          </li>
-
-          <li>
-            <button
-              type="button"
-              className="flex justify-center font-semibold px-3.5 py-2 rounded-full transition bg-primary text-white dark:text-white-light dark:bg-primary"
-            >
-              2
-            </button>
-          </li>
-
-          <li>
-            <button
-              type="button"
-              className="flex justify-center font-semibold px-3.5 py-2 rounded-full transition bg-white-light text-dark hover:text-white hover:bg-primary dark:text-white-light dark:bg-[#191e3a] dark:hover:bg-primary"
-            >
-              3
-            </button>
-          </li>
-        </ul>
-      </div>
+      {userList?.data?.length && (
+        <div className="w-full py-4 flex justify-center items-center">
+        <PaginationUser searchParams={{pageIndex: String(pageIndex), name : String(search)}} userList={userList ? userList : null } />
+        </div>
+      )}
       <AlertDeleteUser
         loading={loading}
         handleClose={handlerCloseDialog}
