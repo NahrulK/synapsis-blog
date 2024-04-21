@@ -106,13 +106,14 @@ _Lakukan langkah-langkah dibawah ini untuk mulai melakukan instalasi aplikasi di
     ```js
    npm run dev
    ```
+    _atau_
  - Build & Production
    ```js
    npm run build
    ```
    lalu jalankan perintah
    ```js
-   npm run start
+   npm start
    ```
 
 <!-- ACKNOWLEDGMENTS -->
