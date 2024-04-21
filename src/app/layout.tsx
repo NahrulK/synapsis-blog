@@ -4,8 +4,6 @@ import { Toaster } from "@/components/ui/sonner";
 import Header from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
 
-
-
 const poppins = Poppins({
   subsets: ["latin"],
   display: "swap",

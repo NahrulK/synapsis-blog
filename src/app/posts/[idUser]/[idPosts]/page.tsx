@@ -11,6 +11,26 @@ import {
   GetCommentsPostDatum,
 } from "@/types/posts/GetCommentPost";
 import { Badge } from "@/components/ui/badge";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { idPosts: number };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // read route params
+
+  // fetch data
+  const postData = await fetchAPostDetail(Number(params.idPosts));
+
+  return {
+    title: `Synapsis Post | ${postData.data?.title}`,
+    description: `${postData.data?.body}`,
+  };
+}
 
 const BlogSingle = async ({
   params

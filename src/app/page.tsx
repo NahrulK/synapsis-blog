@@ -1,6 +1,12 @@
 import BgGlassmorphism from "@/components/BgGlassmorphism/BgGlassmorphism";
 import SectionBlogList from "@/components/Blogs/SectionBlogList";
+import { Metadata } from "next";
 import Image from "next/image";
+
+export const metadata: Metadata = {
+  title: "Synapsis Blog | Nahrul K",
+  description: "A blog app for Synapsis Challenge",
+};
 
 export default function Home({searchParams} : {searchParams: {  pageIndex?: string }}) {
   return (
