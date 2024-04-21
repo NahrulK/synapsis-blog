@@ -1,9 +1,11 @@
 import UserList from '@/components/Users/UserList'
-import React from 'react'
+import React, { Suspense } from 'react'
 
 const UserListPage = () => {
   return (
+    <Suspense>
     <UserList/>
+    </Suspense>
   )
 }
 

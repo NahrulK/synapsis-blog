@@ -4,13 +4,14 @@ import { GetAllUserstList } from "@/types/users/GetAllUserstList";
 
 export const fetchAllUserList = async (
   page: number,
-  limit: number
+  limit: number,
+  filters: string,
 ): Promise<GetAllUserstList> => {
   // Set the required headers for the API request
   const response = await fetch(
     `${String(
       process.env.NEXT_PUBLIC_BASE_URL
-    )}/users?page=${page}&per_page=${limit}`,
+    )}/users?page=${page}&per_page=${limit}${filters}`,
     { next: { revalidate: 0 } }
   );
 

@@ -274,8 +274,8 @@ const EditUser = ({ params }: { params: { id: number } }) => {
                 {/* ---- */}
                 <div className="pt-2">
                   <ButtonPrimary
-                    // loading={loading}
-                    // disabled={loading}
+                    loading={loading}
+                    disabled={loading}
                     type="submit"
                     className="w-full"
                   >
